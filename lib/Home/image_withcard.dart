@@ -78,39 +78,17 @@ class _ImageWithTextOverlayState extends State<ImageWithTextOverlay> {
                         switch (data['route']) {
                           case 'normal':
                             Get.to(Normal());
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const Normal(),
-                            //   ),
-                            // );
+
                             break;
                           case 'silver':
                             Get.to(Silver());
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const Silver(),
-                            //   ),
-                            // );
+
                             break;
                           case 'gold':
                             Get.to(Golden());
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const Golden(),
-                            //   ),
-                            // );
                             break;
                           case 'vip':
                             Get.to(VIP());
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const VIP(),
-                            //   ),
-                            // );
                             break;
                           default:
                             // Handle any unexpected cases

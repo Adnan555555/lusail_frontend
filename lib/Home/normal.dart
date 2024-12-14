@@ -223,10 +223,7 @@ class _NormalState extends State<Normal> {
                 child: IconButton(
                   icon: const Icon(Icons.add, color: Colors.black),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Popular()),
-                    );
+                    Get.to(const Popular());
                   },
                 ),
               ),
@@ -251,7 +248,8 @@ class _NormalState extends State<Normal> {
           _currentIndex = index;
         });
         if (page != null) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+          Get.to(page);
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => page));
         }
       },
       child: Column(

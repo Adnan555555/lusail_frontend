@@ -29,7 +29,7 @@ class NotificationsScreen extends StatelessWidget {
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
             onTap: () {
-              print('Tapped on notification: ${notifications[index]}');
+              print('Tapped on notification : ${notifications[index]}');
             },
           );
         },

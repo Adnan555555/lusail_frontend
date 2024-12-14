@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vehicle_project/Home/home.dart';
 import 'package:vehicle_project/Home/popular.dart';
 import 'package:vehicle_project/profileScreen/account_screen.dart';
@@ -112,12 +113,10 @@ class _FavoritesState extends State<Favorites> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: InkWell(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const DetailDescription(),
-                        ),
-                      ),
+                      onTap: () {
+                        Get.to(DetailDescription());
+                      },
+
                       child: Container(
                         child: Card(
                           color: const Color(0xffFFD200),
@@ -260,12 +259,7 @@ class _FavoritesState extends State<Favorites> {
                 child: IconButton(
                   icon: const Icon(Icons.add, color: Colors.black),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Popular(),
-                      ),
-                    );
+                   Get.to(Popular());
                   },
                 ),
               ),
@@ -291,8 +285,8 @@ class _FavoritesState extends State<Favorites> {
           var currentIndex = index;
         });
         if (page != null) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => page));
+          Get.to(Page);
+
         }
       },
       child: Column(

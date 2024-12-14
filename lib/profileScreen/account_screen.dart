@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import 'package:vehicle_project/dashboard.dart/profile.dart';
 import 'package:vehicle_project/profileScreen/favorites.dart';
@@ -46,12 +48,7 @@ class MyAccount extends StatelessWidget {
                           const SizedBox(height: 1),
                           TextButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const UserProfileScreen(),
-                                  ));
+                              Get.to(UserProfileScreen());
                             },
                             child: const Text(
                               'View & Edit Profile',
@@ -76,12 +73,7 @@ class MyAccount extends StatelessWidget {
                       // Replaced onLongPress with onTap
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Favorites(),
-                            ),
-                          );
+                          Get.to(const Favorites());
                         },
                         child: _buildListTile(
                           leadingIcon: Icons.favorite_outline_outlined,
@@ -94,12 +86,7 @@ class MyAccount extends StatelessWidget {
                       // Replaced onLongPress with onTap
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Order(),
-                            ),
-                          );
+                          Get.to(Order());
                         },
                         child: _buildListTile(
                           leadingIcon: Icons.money_off,
@@ -112,12 +99,8 @@ class MyAccount extends StatelessWidget {
                       // Trash
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const TrashScreen(),
-                            ),
-                          );
+                          Get.to(TrashScreen());
+
                         },
                         child: _buildListTile(
                           leadingIcon: Icons.emoji_transportation,
@@ -131,12 +114,7 @@ class MyAccount extends StatelessWidget {
                       // Payments
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Payment(),
-                            ),
-                          );
+                          Get.to(Payment());
                         },
                         child: _buildListTile(
                           leadingIcon: Icons.money_off_outlined,
@@ -162,22 +140,14 @@ class MyAccount extends StatelessWidget {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
-                                      Navigator.of(context)
-                                          .pop(); // Close the dialog
+                                      Get.back();
                                     },
                                     child: const Text('Cancel'),
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      Navigator.of(context)
-                                          .pop(); // Close the dialog
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginScreen(),
-                                        ),
-                                      );
+                                      Get.back();
+                                    Get.to(LoginScreen());
                                     },
                                     child: const Text('Yes'),
                                   ),

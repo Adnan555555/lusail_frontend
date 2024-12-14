@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:vehicle_project/Home/popular.dart';
 import 'package:vehicle_project/profileScreen/account_screen.dart';
 import 'package:vehicle_project/Home/chat_screen.dart';
@@ -159,11 +161,12 @@ class _DetailDescriptionState extends State<DetailDescription> {
               children: [
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => FaqScreen(),
-                        ));
+                    Get.to(FaqScreen());
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => FaqScreen(),
+                    //     ));
                   },
                   style: TextButton.styleFrom(
                     padding: const EdgeInsets.symmetric(

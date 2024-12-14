@@ -25,7 +25,7 @@ class ProductsController extends GetxController {
       if (response.statusCode == 200) {
         var responseBody = await response.stream.bytesToString();
         var decoded = json.decode(responseBody);
-        var productsModel = GetAllProductModel.fromJson(decoded);
+        var productsModel = GetAllProductsModel.fromJson(decoded);
 
         productList.value = productsModel.products ?? [];  // Update the product list
         print("Products fetched successfully: ${productList.length}");

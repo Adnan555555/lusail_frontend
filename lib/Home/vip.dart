@@ -89,12 +89,7 @@ class _VIPState extends State<VIP> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const DetailDescription(),
-                            ),
-                          );
+                          Get.to(const DetailDescription());
                         },
                         child: Card(
                           color: const Color(0xffFFD200),
@@ -223,10 +218,7 @@ class _VIPState extends State<VIP> {
                 child: IconButton(
                   icon: const Icon(Icons.add, color: Colors.black),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Popular()),
-                    );
+                    Get.to(Popular());
                   },
                 ),
               ),
@@ -251,7 +243,7 @@ class _VIPState extends State<VIP> {
           _currentIndex = index;
         });
         if (page != null) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+          Get.to(page);
         }
       },
       child: Column(

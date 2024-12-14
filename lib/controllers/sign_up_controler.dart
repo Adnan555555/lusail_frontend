@@ -20,7 +20,7 @@ class SignupController extends GetxController {
   Future<void> signup(String name, String email, String password, String role, File? secondImage) async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://ec2-18-136-201-110.ap-southeast-1.compute.amazonaws.com/api/api/v1/app/signup'),
+      Uri.parse('https://backend.lusailnumbers.com/api/api/v1/signup'),
     );
 
     request.fields.addAll({

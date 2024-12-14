@@ -223,10 +223,7 @@ class _SilverState extends State<Silver> {
                 child: IconButton(
                   icon: const Icon(Icons.add, color: Colors.black),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Popular()),
-                    );
+                    Get.to(const Popular());
                   },
                 ),
               ),

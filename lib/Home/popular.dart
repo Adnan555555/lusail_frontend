@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vehicle_project/Home/request.dart';
 
@@ -424,12 +426,7 @@ class _PopularState extends State<Popular> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     print('Form is valid');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Request(),
-                      ),
-                    );
+                    Get.to(Request());
                   }
                 },
                 child: const Text('Post Now'),

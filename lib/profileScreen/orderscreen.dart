@@ -33,7 +33,7 @@ class _OrderState extends State<Order> {
       "image": "assets/images/qattar.jpg",
       "title": "Private plate 195702",
       "ID": "ID 11152",
-      "sellername": "Khan",
+      "sellerName": "Khan",
       "buyerName": "Ali",
       "price": "55,000 Q.T",
       "order": "Delivered",

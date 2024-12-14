@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:vehicle_project/Home/popular.dart';
 import 'package:vehicle_project/profileScreen/account_screen.dart';
 import 'package:vehicle_project/Home/home.dart';
@@ -355,8 +357,7 @@ class _TrashState extends State<TrashScreen> {
           _currentIndex = index;
         });
         if (page != null) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => page));
+          Get.to(page);
         }
       },
       child: Column(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:vehicle_project/profileScreen/account_screen.dart';
 import 'package:vehicle_project/Home/chat_screen.dart';
 import 'package:vehicle_project/Home/home.dart';
@@ -348,8 +350,9 @@ class _CustomCardListState extends State<CustomCardList> {
           var currentIndex = index;
         });
         if (page != null) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => page));
+          Get.to(page);
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => page));
         }
       },
       child: Column(

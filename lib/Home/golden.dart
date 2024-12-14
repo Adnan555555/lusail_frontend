@@ -89,12 +89,7 @@ class _GoldenState extends State<Golden> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const DetailDescription(),
-                            ),
-                          );
+                          Get.to(DetailDescription());
                         },
                         child: Card(
                           color: const Color(0xffFFD200),

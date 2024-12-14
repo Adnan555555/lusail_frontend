@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:vehicle_project/Home/Notifications.dart';
 import 'package:vehicle_project/Home/image_withcard.dart';
 import 'package:vehicle_project/Home/popular.dart';
@@ -60,11 +62,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       icon:
                           const Icon(Icons.notifications, color: Colors.black),
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const NotificationsScreen()));
+                        Get.to(const NotificationsScreen());
                       },
                     ),
                   ],

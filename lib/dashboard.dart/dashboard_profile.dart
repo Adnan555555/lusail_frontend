@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:vehicle_project/dashboard.dart/orders_dashboard.dart';
 import 'package:vehicle_project/dashboard.dart/payment_dashboard.dart';
 import 'package:vehicle_project/dashboard.dart/product.dart';
@@ -131,11 +133,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               title: const Text('Dashboard'),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const DashboardScreen(),
-                    ));
+                Get.to(const DashboardScreen());
               },
             ),
             ListTile(
@@ -153,22 +151,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
               leading: const Icon(Icons.money),
               title: const Text('Product'),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Product(),
-                    ));
+                Get.to(Product());
               },
             ),
             ListTile(
               leading: const Icon(Icons.person_3),
               title: const Text('Users'),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const User(),
-                    ));
+                Get.to(User());
               },
             ),
             ListTile(

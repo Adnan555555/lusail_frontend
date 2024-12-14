@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:vehicle_project/profileScreen/account_screen.dart';
 import 'package:vehicle_project/Home/chat_screen.dart';
 import 'package:vehicle_project/Home/home.dart';
@@ -21,13 +23,15 @@ class _RequestState extends State<Request> {
     super.initState();
     // Start the timer when the widget initializes
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              const CustomCardList(), // Replace with your next screen
-        ),
-      );
+      Get.to(() => const CustomCardList());
+
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) =>
+      //         const CustomCardList(),
+      //   ),
+      // );
     });
   }
 
@@ -145,8 +149,9 @@ class _RequestState extends State<Request> {
           var currentIndex = index;
         });
         if (page != null) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => page));
+          Get.to(page);
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => page));
         }
       },
       child: Column(

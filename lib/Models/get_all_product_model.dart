@@ -1,11 +1,11 @@
-class GetAllProductModel {
+class GetAllProductsModel {
   String? message;
   int? count;
   List<Products>? products;
 
-  GetAllProductModel({this.message, this.count, this.products});
+  GetAllProductsModel({this.message, this.count, this.products});
 
-  GetAllProductModel.fromJson(Map<String, dynamic> json) {
+  GetAllProductsModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     count = json['count'];
     if (json['products'] != null) {

@@ -6,7 +6,7 @@ import 'package:vehicle_project/Home/home.dart';
 import '../Home/chat_screen.dart';
 
 class Payment extends StatefulWidget {
-  const Payment({super.key});
+   Payment({super.key});
 
   @override
   _PaymentState createState() => _PaymentState();
