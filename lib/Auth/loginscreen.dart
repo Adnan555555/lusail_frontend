@@ -51,7 +51,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
     );
 
-    // Start animations
     _animationController.forward();
   }
 
@@ -194,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                 SizedBox(height: height * 0.014),
                 TextButton(
                   onPressed: () {
-                    Get.to(const Forgetscreen());
+                    Get.to(const ForgetScreen());
                   },
                   child: const Text(
                     'Forgot Password?',

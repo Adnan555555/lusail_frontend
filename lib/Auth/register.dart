@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -43,7 +44,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   final SignupController _controller = Get.put(SignupController());
-  File? secondImage; // Placeholder for the second image
+  File? secondImage;
 
   Future<void> _signupAndNavigate() async {
     String name = _firstNameController.text;
@@ -62,7 +63,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         isLoading = false;
       });
       Get.off(() => const WelcomeScreen());
-      Get.snackbar("Lusail", "SignUp successfully");// Navigate to WelcomeScreen
+      Get.snackbar("Lusail", "SignUp successfully");
     }
   }
 
@@ -181,7 +182,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             color: Colors.black,
                                           ),
                       )
-                      : Text('Signup'),
+                      : const Text('Signup'),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

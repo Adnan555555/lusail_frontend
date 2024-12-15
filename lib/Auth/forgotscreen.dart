@@ -4,14 +4,14 @@ import 'package:pin_code_text_field/pin_code_text_field.dart';
 import '../controllers/forget_password_controller.dart';
 import 'new_password_screen.dart';
 
-class Forgetscreen extends StatefulWidget {
-  const Forgetscreen({super.key});
+class ForgetScreen extends StatefulWidget {
+  const ForgetScreen({super.key});
 
   @override
-  State<Forgetscreen> createState() => _ForgetscreenState();
+  State<ForgetScreen> createState() => _ForgetScreenState();
 }
 
-class _ForgetscreenState extends State<Forgetscreen> {
+class _ForgetScreenState extends State<ForgetScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController otpController = TextEditingController();

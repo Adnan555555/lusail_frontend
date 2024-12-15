@@ -103,7 +103,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           const SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () {
-                              Get.snackbar("OTP Entered ${otpController},","");
+                              Get.snackbar("OTP Entered $otpController,","");
                               // ScaffoldMessenger.of(context).showSnackBar(
                               //   SnackBar(
                               //     content: Text(
@@ -128,13 +128,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           const SizedBox(height: 10),
                           ElevatedButton(
                             onPressed: () {
-                              Get.to(Newpassword());
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => const Newpassword(),
-                              //   ),
-                              // );
+                              Get.to(const Newpassword());
                             },
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(

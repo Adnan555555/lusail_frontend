@@ -7,14 +7,15 @@ import '../profileScreen/account_screen.dart';
 import '../Home/chat_screen.dart';
 import '../Home/listing.dart';
 
-class Normal extends StatefulWidget {
-  const Normal({super.key});
+class Category extends StatefulWidget {
+  final String category;
+  const Category({super.key,required this.category});
 
   @override
-  _NormalState createState() => _NormalState();
+  _CategoryState createState() => _CategoryState();
 }
 
-class _NormalState extends State<Normal> {
+class _CategoryState extends State<Category> {
   final ProductsController _productsController = Get.put(ProductsController());
   final RxInt _currentIndex = 0.obs;
   @override
@@ -29,7 +30,7 @@ class _NormalState extends State<Normal> {
       backgroundColor: const Color(0xffCABA99),
       appBar: AppBar(
         backgroundColor: const Color(0xffCABA99),
-        title: const Text('Normal Category'),
+        title:  Text(widget.category.toUpperCase()),
       ),
       body: FutureBuilder(
         future: _productsController.fetchProducts(),
@@ -41,7 +42,7 @@ class _NormalState extends State<Normal> {
               child: Text('Error: ${snapshot.error}'),
             );
           } else {
-            final productList = _productsController.productList;
+            final productList = _productsController.productList.where((item)=>item.category==widget.category).toList();
 
             if (productList.isEmpty) {
               return const Center(child: Text('No products available'));
