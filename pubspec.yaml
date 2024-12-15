@@ -43,8 +43,8 @@ dependencies:
   mailer: ^6.3.0
   get: ^4.6.6
   shared_preferences: ^2.2.0
-  flutter_chat_ui: ^1.6.15
-  livechatt: ^1.5.1
+#  flutter_chat_ui: ^1.6.15
+#  livechatt: ^1.5.1
 
 dev_dependencies:
   flutter_test:

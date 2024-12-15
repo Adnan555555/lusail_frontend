@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:vehicle_project/Home/home.dart';
-import 'package:vehicle_project/Home/popular.dart';
-import 'package:vehicle_project/profileScreen/account_screen.dart';
-import 'package:vehicle_project/Home/chat_screen.dart';
-import 'package:vehicle_project/Home/detail_description.dart';
-import 'package:vehicle_project/Home/listing.dart';
-
 import '../controllers/get_all_product.dart';
+import '../Home/home.dart';
+import '../Home/popular.dart';
+import '../profileScreen/account_screen.dart';
+import '../Home/chat_screen.dart';
+import '../Home/listing.dart';
 
 class Normal extends StatefulWidget {
   const Normal({super.key});
@@ -19,41 +16,11 @@ class Normal extends StatefulWidget {
 
 class _NormalState extends State<Normal> {
   final ProductsController _productsController = Get.put(ProductsController());
-  int _currentIndex = 0;
-  bool _isExpanded = false;
-
-  final List<Map<String, String>> _allAvatarData = [
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 1', 'price': '\$10.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 2', 'price': '\$15.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 3', 'price': '\$20.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 4', 'price': '\$25.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 5', 'price': '\$30.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 6', 'price': '\$35.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 7', 'price': '\$40.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 8', 'price': '\$45.00'},
-  ];
-
-  late List<Map<String, String>> avatarData2;
-
+  final RxInt _currentIndex = 0.obs;
   @override
   void initState() {
     super.initState();
-    avatarData2 = _allAvatarData.sublist(0, 4);
     _productsController.fetchProducts();
-// Initially load 4 products
-  }
-
-  void _loadMoreProducts() {
-    setState(() {
-      _isExpanded = !_isExpanded;
-      avatarData2 = _isExpanded ? _allAvatarData : _allAvatarData.sublist(0, 4);
-    });
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
   }
 
   @override
@@ -64,145 +31,140 @@ class _NormalState extends State<Normal> {
         backgroundColor: const Color(0xffCABA99),
         title: const Text('Normal Category'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-            Obx((){
-              if(_productsController.isLoading.value){
-                return Center(child:  CircularProgressIndicator(),);
-              }
-              return   GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+      body: FutureBuilder(
+        future: _productsController.fetchProducts(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else {
+            final productList = _productsController.productList;
+
+            if (productList.isEmpty) {
+              return const Center(child: Text('No products available'));
+            }
+
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 8.0,
                   mainAxisSpacing: 8.0,
                   childAspectRatio: 0.64,
                 ),
-                itemCount: _productsController.productList.length,
+                itemCount: productList.length,
                 itemBuilder: (context, index) {
-                  final product = _productsController.productList[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const DetailDescription(),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        color: const Color(0xffFFD200),
-                        elevation: 3,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: Stack(
-                                  children: [
-                                    Image.asset(
-                                      avatarData2[index]['image']!,
-                                      height: 120,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Positioned(
-                                      left: 45,
-                                      bottom: 20,
-                                      child: Text(
-                                        product.plateNo ?? 'N/A',
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                  final product = productList[index];
+                  return Card(
+                    color: const Color(0xffFFD200),
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            color: Colors.grey[300],
+                            height: MediaQuery.of(context).size.height * 0.080,
+                            width: MediaQuery.of(context).size.width,
+                            child: Center(
+                              child: Stack(
+                                children: [
+                                  const Image(
+                                    image: AssetImage("assets/images/qattar.jpg"),
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Positioned(
+                                    left: 45,
+                                    bottom: 20,
+                                    child: Text(
+                                      product.plateNo ?? 'N/A',
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              Text(
-                                product.sellerName ?? 'Unknown',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text(
-                                "${product.price ?? '0'} Q.T",
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text(
-                                "${product.discountpercent ?? '0'}% off",
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    'Some Detail',
-                                    style: TextStyle(fontSize: 10, color: Colors.black),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.favorite_border, color: Colors.black, size: 18),
-                                    onPressed: () {},
                                   ),
                                 ],
                               ),
+                            ),
+                          ),
+                          const SizedBox(height: 8.0),
+                          Text(
+                            product.sellerName ?? 'Unknown',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "${product.price ?? '0'} Q.T",
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "${product.discountpercent ?? '0'}% off",
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
                               const Text(
-                                'More Info',
+                                'Some Detail',
                                 style: TextStyle(fontSize: 10, color: Colors.black),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.favorite_border, color: Colors.black, size: 18),
+                                onPressed: () {},
                               ),
                             ],
                           ),
-                        ),
+                          const Text(
+                            'More Info',
+                            style: TextStyle(fontSize: 10, color: Colors.black),
+                          ),
+                        ],
                       ),
                     ),
                   );
                 },
-              );
-            }),
-              ElevatedButton(
-                onPressed: _loadMoreProducts,
-                child: Text(_isExpanded ? 'Show Less' : 'Load More'),
               ),
-              const SizedBox(height: 40),
+            );
+          }
+        },
+      ),
+      bottomNavigationBar: Obx(() {
+        return BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 1.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildBottomNavItem(Icons.home, 'Home', 0, const HomePageScreen()),
+              _buildBottomNavItem(
+                  Icons.chat_bubble_outline_outlined, 'Chat', 1, FaqScreen()),
+              const SizedBox(width: 15),
+              _buildBottomNavItem(Icons.list, 'My List', 2, const CustomCardList()),
+              _buildBottomNavItem(Icons.person, 'Account', 3, const MyAccount()),
             ],
           ),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 1.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildBottomNavItem(Icons.home, 'Home', 0, const HomePageScreen()),
-            _buildBottomNavItem(Icons.chat_bubble_outline_outlined, 'Chat', 1,  FaqScreen()),
-            const SizedBox(width: 15),
-            _buildBottomNavItem(Icons.list, 'My List', 2, const CustomCardList()),
-            _buildBottomNavItem(Icons.person, 'Account', 3, const MyAccount()),
-          ],
-        ),
-      ),
+        );
+      }),
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -210,7 +172,14 @@ class _NormalState extends State<Normal> {
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               gradient: LinearGradient(
-                colors: [Colors.red, Color(0xFF3A1D6F), Color.fromARGB(255, 49, 4, 160), Color(0xFFAF121F), Colors.brown, Color(0xFFAF121F)],
+                colors: [
+                  Colors.red,
+                  Color(0xFF3A1D6F),
+                  Color.fromARGB(255, 49, 4, 160),
+                  Color(0xFFAF121F),
+                  Colors.brown,
+                  Color(0xFFAF121F)
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -241,15 +210,12 @@ class _NormalState extends State<Normal> {
   }
 
   Widget _buildBottomNavItem(IconData icon, String label, int index, Widget? page) {
-    final isSelected = index == _currentIndex;
+    final isSelected = index == _currentIndex.value;  // Access the Rx value directly
     return GestureDetector(
       onTap: () {
-        setState(() {
-          _currentIndex = index;
-        });
+        _currentIndex.value = index;  // Update the reactive variable
         if (page != null) {
           Get.to(page);
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => page));
         }
       },
       child: Column(

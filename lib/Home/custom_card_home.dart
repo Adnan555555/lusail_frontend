@@ -28,7 +28,6 @@ class _CustomCardHomeState extends State<CustomCardHome> {
     return SizedBox(
       height: height * 0.25,
       child: Obx(() {
-
         if (_productsController.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
         }
@@ -99,6 +98,7 @@ class _CustomCardHomeState extends State<CustomCardHome> {
                             color: Colors.black,
                           ),
                         ),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

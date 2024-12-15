@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:vehicle_project/Home/home.dart';
 import 'package:vehicle_project/Home/popular.dart';
 import 'package:vehicle_project/profileScreen/account_screen.dart';
 import 'package:vehicle_project/Home/chat_screen.dart';
-import 'package:vehicle_project/Home/detail_description.dart';
 import 'package:vehicle_project/Home/listing.dart';
 
 import '../controllers/get_all_product.dart';
@@ -22,31 +20,15 @@ class _GoldenState extends State<Golden> {
   int _currentIndex = 0;
   bool _isExpanded = false;
 
-  final List<Map<String, String>> _allAvatarData = [
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 1', 'price': '\$10.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 2', 'price': '\$15.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 3', 'price': '\$20.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 4', 'price': '\$25.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 5', 'price': '\$30.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 6', 'price': '\$35.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 7', 'price': '\$40.00'},
-    {'image': 'assets/images/qattar.jpg', 'name': 'Product 8', 'price': '\$45.00'},
-  ];
-
-  late List<Map<String, String>> avatarData2;
-
   @override
   void initState() {
     super.initState();
-    avatarData2 = _allAvatarData.sublist(0, 4);
     _productsController.fetchProducts();
-// Initially load 4 products
   }
 
   void _loadMoreProducts() {
     setState(() {
       _isExpanded = !_isExpanded;
-      avatarData2 = _isExpanded ? _allAvatarData : _allAvatarData.sublist(0, 4);
     });
   }
 
@@ -62,123 +44,136 @@ class _GoldenState extends State<Golden> {
       backgroundColor: const Color(0xffCABA99),
       appBar: AppBar(
         backgroundColor: const Color(0xffCABA99),
-        title: const Text('Gold Category'),
+        title: const Text('Golden Category'),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Obx((){
-                if(_productsController.isLoading.value){
-                  return Center(child:  CircularProgressIndicator(),);
-                }
-                return   GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8.0,
-                    mainAxisSpacing: 8.0,
-                    childAspectRatio: 0.64,
-                  ),
-                  itemCount: _productsController.productList.length,
-                  itemBuilder: (context, index) {
-                    final product = _productsController.productList[index];
+              FutureBuilder(
+                future: _productsController.fetchProducts(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else {
+                    final productList = _productsController.productList;
+
+                    if (productList.isEmpty) {
+                      return const Center(child: Text('No products available'));
+                    }
+
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: InkWell(
-                        onTap: () {
-                          Get.to(DetailDescription());
-                        },
-                        child: Card(
-                          color: const Color(0xffFFD200),
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: Stack(
-                                    children: [
-                                      Image.asset(
-                                        avatarData2[index]['image']!,
-                                        height: 120,
-                                        width: double.infinity,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Positioned(
-                                        left: 45,
-                                        bottom: 20,
-                                        child: Text(
-                                          product.plateNo ?? 'N/A',
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
+                      padding: const EdgeInsets.all(8.0),
+                      child: GridView.builder(
+                        shrinkWrap: true, // Ensure GridView takes only required space
+                        physics: const NeverScrollableScrollPhysics(), // Disable scrolling for GridView
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 8.0,
+                          mainAxisSpacing: 8.0,
+                          childAspectRatio: 0.64,
+                        ),
+                        itemCount: productList.length,
+                        itemBuilder: (context, index) {
+                          final product = productList[index];
+                          return Card(
+                            color: const Color(0xffFFD200),
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    color: Colors.grey[300],
+                                    height: MediaQuery.of(context).size.height * 0.080,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Center(
+                                      child: Stack(
+                                        children: [
+                                          const Image(
+                                            image: AssetImage("assets/images/qattar.jpg"),
+                                            width: double.infinity,
+                                            fit: BoxFit.cover,
                                           ),
-                                        ),
+                                          Positioned(
+                                            left: 45,
+                                            bottom: 20,
+                                            child: Text(
+                                              product.plateNo ?? 'N/A',
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8.0),
+                                  Text(
+                                    product.sellerName ?? 'Unknown',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${product.price ?? '0'} Q.T",
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${product.discountpercent ?? '0'}% off",
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Some Detail',
+                                        style: TextStyle(fontSize: 10, color: Colors.black),
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.favorite_border, color: Colors.black, size: 18),
+                                        onPressed: () {},
                                       ),
                                     ],
                                   ),
-                                ),
-                                Text(
-                                  product.sellerName ?? 'Unknown',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                                  const Text(
+                                    'More Info',
+                                    style: TextStyle(fontSize: 10, color: Colors.black),
                                   ),
-                                ),
-                                Text(
-                                  "${product.price ?? '0'} Q.T",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Text(
-                                  "${product.discountpercent ?? '0'}% off",
-                                  style: const TextStyle(
-                                    fontSize: 10,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      'Some Detail',
-                                      style: TextStyle(fontSize: 10, color: Colors.black),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.favorite_border, color: Colors.black, size: 18),
-                                      onPressed: () {},
-                                    ),
-                                  ],
-                                ),
-                                const Text(
-                                  'More Info',
-                                  style: TextStyle(fontSize: 10, color: Colors.black),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       ),
                     );
-                  },
-                );
-              }),
-              ElevatedButton(
-                onPressed: _loadMoreProducts,
-                child: Text(_isExpanded ? 'Show Less' : 'Load More'),
+                  }
+                },
               ),
+              // ElevatedButton(
+              //   onPressed: _loadMoreProducts,
+              //   child: Text(_isExpanded ? 'Show Less' : 'Load More'),
+              // ),
               const SizedBox(height: 40),
             ],
           ),
@@ -191,7 +186,7 @@ class _GoldenState extends State<Golden> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildBottomNavItem(Icons.home, 'Home', 0, const HomePageScreen()),
-            _buildBottomNavItem(Icons.chat_bubble_outline_outlined, 'Chat', 1,  FaqScreen()),
+            _buildBottomNavItem(Icons.chat_bubble_outline_outlined, 'Chat', 1, FaqScreen()),
             const SizedBox(width: 15),
             _buildBottomNavItem(Icons.list, 'My List', 2, const CustomCardList()),
             _buildBottomNavItem(Icons.person, 'Account', 3, const MyAccount()),
@@ -218,10 +213,7 @@ class _GoldenState extends State<Golden> {
                 child: IconButton(
                   icon: const Icon(Icons.add, color: Colors.black),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Popular()),
-                    );
+                    Get.to(const Popular());
                   },
                 ),
               ),

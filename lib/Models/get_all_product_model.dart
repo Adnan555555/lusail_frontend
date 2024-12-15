@@ -5,25 +5,22 @@ class GetAllProductsModel {
 
   GetAllProductsModel({this.message, this.count, this.products});
 
-  GetAllProductsModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    count = json['count'];
-    if (json['products'] != null) {
-      products = <Products>[];
-      json['products'].forEach((v) {
-        products!.add(new Products.fromJson(v));
-      });
-    }
+  factory GetAllProductsModel.fromJson(Map<String, dynamic> json) {
+    return GetAllProductsModel(
+      message: json['message'],
+      count: json['count'],
+      products: (json['products'] as List<dynamic>?)
+          ?.map((e) => Products.fromJson(e))
+          .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['count'] = this.count;
-    if (this.products != null) {
-      data['products'] = this.products!.map((v) => v.toJson()).toList();
-    }
-    return data;
+    return {
+      'message': message,
+      'count': count,
+      'products': products?.map((e) => e.toJson()).toList(),
+    };
   }
 }
 
@@ -58,26 +55,26 @@ class Products {
     this.sellerName,
   });
 
-  // Factory constructor for parsing JSON
-  Products.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    category = json['category'];
-    plateNo = json['plateNo'];
-    price = json['price'];
-    discountpercent = json['discountpercent'];
-    discountedPrice = json['discountedPrice'] is int
-        ? (json['discountedPrice'] as int).toDouble()
-        : (json['discountedPrice'] as double?);
-    availability = json['availability'];
-    seller = json['seller'];
-    likes = List<String>.from(json['likes'] ?? []);
-    views = json['views'];
-    createdAt = json['created_at'];
-    iV = json['__v'];
-    sellerName = json['sellerName'];
+  factory Products.fromJson(Map<String, dynamic> json) {
+    return Products(
+      sId: json['_id'],
+      category: json['category'],
+      plateNo: json['plateNo'],
+      price: json['price'],
+      discountpercent: json['discountpercent'],
+      discountedPrice: (json['discountedPrice'] is int)
+          ? (json['discountedPrice'] as int).toDouble()
+          : (json['discountedPrice'] as double?),
+      availability: json['availability'],
+      seller: json['seller'],
+      likes: List<String>.from(json['likes'] ?? []),
+      views: json['views'],
+      createdAt: json['created_at'],
+      iV: json['__v'],
+      sellerName: json['sellerName'],
+    );
   }
 
-  // Convert to JSON
   Map<String, dynamic> toJson() {
     return {
       '_id': sId,
@@ -96,5 +93,3 @@ class Products {
     };
   }
 }
-
-

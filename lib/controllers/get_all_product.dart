@@ -6,12 +6,14 @@ import '../Models/get_all_product_model.dart';
 class ProductsController extends GetxController {
   RxBool isLoading = false.obs;
   RxList<Products> productList = <Products>[].obs;
+
   Future<void> fetchProducts() async {
     isLoading.value = true;
+
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request(
       'GET',
-      Uri.parse('http://ec2-18-136-201-110.ap-southeast-1.compute.amazonaws.com/api/api/v1/getAllProducts'),
+      Uri.parse('https://backend.lusailnumbers.com/api/api/v1/getAllProducts'),
     );
     request.body = json.encode({
       "plateNo": "656788",
@@ -27,7 +29,7 @@ class ProductsController extends GetxController {
         var decoded = json.decode(responseBody);
         var productsModel = GetAllProductsModel.fromJson(decoded);
 
-        productList.value = productsModel.products ?? [];  // Update the product list
+        productList.value = productsModel.products ?? [];
         print("Products fetched successfully: ${productList.length}");
       } else {
         print("Failed to fetch products: ${response.reasonPhrase}");
