@@ -27,6 +27,7 @@ class _ImageWithTextOverlayState extends State<ImageWithTextOverlay> {
     "Gold",
     "VIP"
   ];
+
   final List<Map<String, String>> avatarData = const [
     {'image': 'assets/images/normal.png', 'name': 'Normal', 'route': 'normal'},
     {'image': 'assets/images/silver.png', 'name': 'Silver', 'route': 'silver'},
@@ -80,17 +81,36 @@ List<String>category=['normal','silver','gold','vip'];
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 58.0),
+                padding: const EdgeInsets.symmetric(horizontal: 28.0),
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: avatarImages.length,
                   itemBuilder: (context, index) {
-                  return InkWell(
-                      onTap:()=> Get.to(()=>Category(category: category[index])),
-                      child: CircleAvatar(
-                        radius: 25,
-                        backgroundImage: AssetImage(avatarImages[index],),));
-                },),
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0), // Add horizontal spacing
+                      child: Column(
+                        children: [
+                          InkWell(
+                            onTap: () => Get.to(() => Category(category: category[index])),
+                            child: CircleAvatar(
+                              radius: 25,
+                              backgroundImage: AssetImage(
+                                avatarImages[index],
+                              ),
+                            ),
+                          ),
+                          // const SizedBox(height: 8), // Add vertical spacing between avatar and text
+                          Row(
+                            children: [
+                              Text(browseCategory[index]),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+
               ),
               // child: Row(
               //   mainAxisAlignment: MainAxisAlignment.center,

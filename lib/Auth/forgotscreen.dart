@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import '../controllers/forget_password_controller.dart';
+import '../controllers/verifyotp_controller.dart';
 import 'new_password_screen.dart';
 
 class ForgetScreen extends StatefulWidget {
@@ -14,6 +15,8 @@ class ForgetScreen extends StatefulWidget {
 class _ForgetScreenState extends State<ForgetScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
+  final VerifyOtpController controller = Get.put(VerifyOtpController());
+
   final TextEditingController otpController = TextEditingController();
   final ForgetPasswordController _controller = Get.put(ForgetPasswordController());
 
@@ -120,27 +123,24 @@ class _ForgetScreenState extends State<ForgetScreen> {
                 ),
                  SizedBox(height:height*0.02520),
                 // Verify OTP Button
-                ElevatedButton(
+                Obx(() => controller.isLoading.value
+                    ? Center(child: CircularProgressIndicator())
+                    : ElevatedButton(
                   onPressed: () {
-                    if (otpController.text.isNotEmpty) {
-                      Get.to(() => Newpassword());
+                    if (emailController.text.isNotEmpty) {
+                      controller.verifyOtp(emailController.text);
                     } else {
-                      Get.snackbar("Error", "Please enter the OTP");
+                      Get.snackbar('Error', 'Please enter your email',
+                          snackPosition: SnackPosition.TOP);
                     }
                   },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 15),
-                    backgroundColor: const Color(0xffFBFF1F),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child:  Text(
-                    "Verify OTP",
-                    style: TextStyle(fontSize: width*0.038, color: Colors.black),
-                  ),
-                ),
+                  child: const Text('Verify OTP'),
+                )),
+                  SizedBox(height: 16),
+                //      Obx(() => Text(
+                //   'Response: ${controller.otpResponse.value}',
+                //   style: const TextStyle(fontSize: 16),
+                // )),
               ],
             ),
           ),

@@ -1,36 +1,39 @@
-import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class OTPController extends GetxController {
-  RxBool isLoading = false.obs;
+class VerifyOtpController extends GetxController {
+  var isLoading = false.obs;
+  var otpResponse = ''.obs;
 
-  Future<bool> verifyOTP(String email) async {
+  Future<void> verifyOtp(String email) async {
     isLoading.value = true;
     var headers = {
-      'Cookie': 'your_token_here'  // Consider dynamically fetching the token
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Cookie': 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NWFhYTM2NTNhNDhlM2U4NmU0NDcwYyIsImlhdCI6MTczNDE4MTIzOCwiZXhwIjoxNzM1NDc3MjM4fQ.pedBCCO3OTs-knScTAbHVVYZM5aooBsIKvhrDnbyiMI'
     };
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.parse('https://backend.lusailnumbers.com/api/api/v1/verifyOTP'),
-    );
-    request.fields.addAll({'email': email});
+    var request = http.Request('POST', Uri.parse('https://backend.lusailnumbers.com/api/api/v1/verifyotp'));
+    request.bodyFields = {
+      'email': email
+    };
     request.headers.addAll(headers);
 
     try {
       http.StreamedResponse response = await request.send();
+
       if (response.statusCode == 200) {
-        var responseBody = await response.stream.bytesToString();
-        var data = json.decode(responseBody); // Decoding the JSON response
-        print('OTP Verified Successfully: $data');
-        return true; // Success
+        otpResponse.value = await response.stream.bytesToString();
+        Get.snackbar('Success', 'OTP verified successfully',
+            snackPosition: SnackPosition.BOTTOM);
       } else {
-        print('Failed to verify OTP: ${response.reasonPhrase}');
-        return false; // Failure
+        otpResponse.value = response.reasonPhrase ?? 'Error';
+        Get.snackbar('Error', 'Failed to verify OTP',
+            snackPosition: SnackPosition.TOP);
       }
     } catch (e) {
-      print('Error in OTP verification: $e');
-      return false;
+      otpResponse.value = 'Exception: $e';
+      Get.snackbar('Error', 'An error occurred',
+          snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }
