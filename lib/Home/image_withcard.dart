@@ -43,6 +43,8 @@ List<String>category=['normal','silver','gold','vip'];
   bool _showMore = false;
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -52,8 +54,8 @@ List<String>category=['normal','silver','gold','vip'];
               ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
                 child: SizedBox(
-                  width: double.infinity,
-                  height: 200,
+                  width: width,
+                  height: height*0.240,
                   child: Image.asset(
                     'assets/images/car.jpg',
                     fit: BoxFit.cover,
@@ -62,22 +64,22 @@ List<String>category=['normal','silver','gold','vip'];
               ),
             ],
           ),
-          const SizedBox(
-            height: 20,
+           SizedBox(
+            height: height*0.025,
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Browse Category',
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: width*0.035,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 5),
+           SizedBox(height:height*0.0020),
           SizedBox(
-            height: 100,
+            height: height*0.100,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Padding(
@@ -87,7 +89,7 @@ List<String>category=['normal','silver','gold','vip'];
                   itemCount: avatarImages.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0), // Add horizontal spacing
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Column(
                         children: [
                           InkWell(
@@ -99,7 +101,6 @@ List<String>category=['normal','silver','gold','vip'];
                               ),
                             ),
                           ),
-                          // const SizedBox(height: 8), // Add vertical spacing between avatar and text
                           Row(
                             children: [
                               Text(browseCategory[index]),
